@@ -1,0 +1,43 @@
+version: "3.5"
+services:
+#  python:
+#    build:
+#      context: .
+#      dockerfile: python.Dockerfile
+#  c:
+#    build:
+#      context: .
+#      dockerfile: cpp.Dockerfile
+  server:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    networks:
+      testnet:
+        ipv4_address: 172.20.0.4
+
+  client1:
+    depends_on:
+      - server
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    networks:
+      testnet:
+        ipv4_address: 172.20.0.3
+
+#  client2:
+#    depends_on:
+#      - server
+#    build:
+#      context: .
+#      dockerfile: client.Dockerfile
+#    networks:
+#      testnet:
+#        ipv4_address: 172.20.0.2
+
+networks:
+  testnet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
